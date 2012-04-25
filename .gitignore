@@ -1,0 +1,16 @@
+*.exe
+*.obj
+*.com
+*.class
+*.dll
+*.pdb
+*.cache
+*.suo
+*.dll.config
+*.sdf
+*.tlog
+*.log
+*.ilk
+*.opensdf
+ipch/
+CS535Program5/Debug/
