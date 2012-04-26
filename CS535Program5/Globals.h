@@ -52,14 +52,14 @@ struct Point2D{
 	Point2D(GLint xc, GLint yc): x(xc), y(yc) {}
 };
 
-// What to draw
-enum DrawMode { TEAPOT, SPHERE };
-
 // Menu position
 const Point2D MENU_POS(12, 24);
 
 // I can never decide whether 0 or 1 should be failure
 enum Result { SUCCESS, FAILURE };
+
+// Sphere and triangle materials
+enum Material { PHONG, GLASS, MIRROR };
 
 // Keep value in range
 template<typename T>
