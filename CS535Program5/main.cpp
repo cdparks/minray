@@ -14,25 +14,28 @@ using namespace std;
 #include "LoadGL.h"
 
 int main(int argc, char **argv){
-   // Initialization functions
-   glutInit(&argc, argv);
-   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);  
-   glutInitWindowSize(WIDTH, HEIGHT);
-   glutInitWindowPosition(0, 0);
-   glutCreateWindow("CS535 Program 4");
+	// Initialization functions
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);  
+    glutInitWindowSize(WIDTH, HEIGHT);
+    glutInitWindowPosition(0, 0);
+    glutCreateWindow("CS535 Program 4");
 
-   // Call-back functions
-   glutDisplayFunc(DrawContext::Display);
-   glutKeyboardFunc(DrawContext::Keyboard);
-   glutMouseFunc(DrawContext::Mouse);
-   glutPassiveMotionFunc(DrawContext::Motion);
-   glutMotionFunc(DrawContext::Motion);
+    // Call-back functions
+    glutDisplayFunc(DrawContext::Display);
+    glutKeyboardFunc(DrawContext::Keyboard);
+    glutMouseFunc(DrawContext::Mouse);
+    glutPassiveMotionFunc(DrawContext::Motion);
+    glutMotionFunc(DrawContext::Motion);
 
-   // Load extensions
-   InitShaderAPI();
+    // Load extensions
+    InitShaderAPI();
 
-   // Infinite Loop
-   glutMainLoop();           
-   return 0;
+	// Set up scene
+	DrawContext::Load("scenes/sample.txt");
+
+    // Infinite Loop
+    glutMainLoop();           
+    return 0;
 }
 // End of the program
