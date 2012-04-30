@@ -11,7 +11,7 @@ using namespace std;
 #include "DrawContext.h"
 
 // Initialize single instance once. Allow static access
-DrawContext& DrawContext::get_instance(){
+DrawContext& DrawContext::get_instance() {
 	static DrawContext dc;
 	return dc;
 }
@@ -38,6 +38,7 @@ const float DrawContext::RESET_PITCH = 0;
 // Initialize window and logical state
 DrawContext::DrawContext():
 	program(),
+	scene(400, 400),
 	draw_menu(false),
 	left_down(false),
 	right_down(false),
@@ -71,29 +72,37 @@ DrawContext::DrawContext():
 	}
 }
 
+void DrawContext::on_load(string filename) {
+	if(scene.load(filename) == FAILURE) {
+		exit(0);
+	} else {
+		scene.status();
+	}
+}
+
 // Write contents of a stream to screen at (x, y)
-void DrawContext::write(ostringstream &os, GLfloat x, GLfloat y, float *color){	
+void DrawContext::write(ostringstream &os, GLfloat x, GLfloat y, float *color) {	
 	string output = os.str();
 	glColor3fv(color);
 	glRasterPos2f(x, y);
-	for(GLint i = 0; i < (GLint)output.length(); ++i){
+	for(GLint i = 0; i < (GLint)output.length(); ++i) {
 		glutBitmapCharacter(GLUT_BITMAP_8_BY_13, output[i]);
 	}
 }
 
 // Draw the menu, state, and mouse position
-void DrawContext::draw_interface(void){	
+void DrawContext::draw_interface(void) {	
 	BEGIN2D;
 	Point2D cursor(MENU_POS.x, height - MENU_POS.y);
 	// Help toggle
-	for(size_t i = 0; i < TOGGLE_SIZE; ++i, cursor.y -= 13){
+	for(size_t i = 0; i < TOGGLE_SIZE; ++i, cursor.y -= 13) {
 		ostringstream toggle_stream;
 		toggle_stream << TOGGLE[i];
 		write(toggle_stream, cursor.x, cursor.y, (float*)GREEN);
 	}
 	// Help dropdown menu
-	if(draw_menu){
-		for(size_t i = 0; i < MENU_SIZE; ++i, cursor.y -= 13){
+	if(draw_menu) {
+		for(size_t i = 0; i < MENU_SIZE; ++i, cursor.y -= 13) {
 			ostringstream stream;
 			stream << MENU[i];
 			write(stream, cursor.x, cursor.y, (float*)GREEN);
@@ -107,7 +116,7 @@ void DrawContext::draw_interface(void){
 }
 
 // Private display callback
-void DrawContext::on_display(){
+void DrawContext::on_display() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode( GL_MODELVIEW );
 	glLoadIdentity();
@@ -136,8 +145,8 @@ void DrawContext::on_display(){
 }
 
 // Private keyboard callback
-void DrawContext::on_keyboard(unsigned char key, int x, int y){
-	switch(key){
+void DrawContext::on_keyboard(unsigned char key, int x, int y) {
+	switch(key) {
 	// Toggle help menu
 	case 'h':
 	case 'H':
@@ -164,7 +173,7 @@ void DrawContext::on_keyboard(unsigned char key, int x, int y){
 }
 
 // Private mouse-button-press callback
-void DrawContext::on_mouse(int button, int state, int x, int y){
+void DrawContext::on_mouse(int button, int state, int x, int y) {
 	if(button == GLUT_LEFT_BUTTON){
 		left_down = state == GLUT_DOWN;
 		mouse.x = x;
@@ -177,7 +186,7 @@ void DrawContext::on_mouse(int button, int state, int x, int y){
 }
 
 // Private motion callback
-void DrawContext::on_motion(int x, int y){
+void DrawContext::on_motion(int x, int y) {
 	if(left_down){		
 		yaw -= (GLfloat)(x - mouse.x);
 		pitch -= (GLfloat)(y - mouse.y);
@@ -189,20 +198,24 @@ void DrawContext::on_motion(int x, int y){
 
 // Public callbacks must get singleton and call corresponding
 // private callback
-void DrawContext::Display(void){
+void DrawContext::Display(void) {
 	get_instance().on_display();
 }
 
-void DrawContext::Keyboard(unsigned char key, int x, int y){
+void DrawContext::Keyboard(unsigned char key, int x, int y) {
 	get_instance().on_keyboard(key, x, y); 
 }
 
-void DrawContext::Mouse(int button, int state, int x, int y){
+void DrawContext::Mouse(int button, int state, int x, int y) {
 	get_instance().on_mouse(button, state, x, y);
 }
 
-void DrawContext::Motion(int x, int y){
+void DrawContext::Motion(int x, int y) {
 	get_instance().on_motion(x, y);
+}
+
+void DrawContext::Load(string filename) {
+	get_instance().on_load(filename);
 }
 
 #endif

@@ -8,6 +8,7 @@ using namespace std;
 
 #include "Globals.h"
 #include "Shader.h"
+#include "Scene.h"
 
 class DrawContext{
 public:
@@ -17,6 +18,7 @@ public:
 	static void Keyboard(unsigned char key, int x, int y);
 	static void Mouse(int button, int state, int x, int y);
 	static void Motion(int x, int y);
+	static void Load(string filename);
 
 private:
 	// Get private singleton
@@ -32,6 +34,7 @@ private:
 	void on_keyboard(unsigned char key, int x, int y);
 	void on_mouse(int button, int state, int x, int y);	
 	void on_motion(int x, int y);
+	void on_load(string filename);
 
 	// Write text to screen
 	void write(ostringstream &os, GLfloat x, GLfloat y, float *color);
@@ -41,6 +44,7 @@ private:
 
 	// Drawing variables
 	Shader program;					// Vertex and Fragment shader
+	Scene scene;					// Ray tracer scene
 
 	// State variables
 	bool draw_menu;					// Should we draw the help menu?
