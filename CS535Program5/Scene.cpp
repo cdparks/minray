@@ -76,7 +76,7 @@ void Scene::setAmbient(glm::vec3 &ambient) {
 }
 
 // Access red, green, and blue components of pixel array
-#define R(row, col) ((row) * width + ((col) * 3))
+#define R(row, col) ((row) * width * 3 + ((col) * 3))
 #define G(row, col) (R(row, col) + 1)
 #define B(row, col) (R(row, col) + 2)
 
@@ -93,6 +93,7 @@ void Scene::raytrace() {
 			pixels[B(i, j)] = color.b;
 		}
 	}
+
 }
 
 void Scene::draw() {
