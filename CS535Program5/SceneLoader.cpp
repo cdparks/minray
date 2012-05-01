@@ -30,8 +30,9 @@ Result SceneLoader::load(string filename, Scene &scene) {
 
 	// Read in objects
 	for(int i = 0; i < numObjects; ++i) {
+		ss = nextLine();
 		string type;
-		fin >> type;
+		ss >> type;
 		Result readObject;
 		if(type == "sphere") {
 			readObject = readSphere(scene);
@@ -133,7 +134,7 @@ Result SceneLoader::readSphere(Scene &scene) {
 	}
 	ss >> sphere->radius;
 
-	// Add to sphere vector
+	// Add to shape vector
 	scene.add(sphere);
 	return SUCCESS;
 error:
@@ -205,7 +206,7 @@ Result SceneLoader::readTriangle(Scene &scene) {
 		ss >> texcoords.s >> texcoords.t;
 	}
 
-	// Add to triangle vector
+	// Add to shape vector
 	scene.add(triangle);
 	return SUCCESS;
 error:

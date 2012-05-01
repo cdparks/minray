@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <algorithm>
 
 using namespace std;
 
@@ -21,8 +22,7 @@ Result Scene::load(string filename) {
 }
 
 void Scene::status() {
-	cout << "Spheres:      " << spheres.size() << endl;
-	cout << "Triangles:    " << triangles.size() << endl;
+	cout << "Shapes:       " << shapes.size() << endl;
 	cout << "Point Lights: " << pointLights.size() << endl;
 	cout << "Area Lights:  " << areaLights.size() << endl;
 }
@@ -34,15 +34,10 @@ Scene::~Scene() {
 }
 
 void Scene::destroy() {
-	for(size_t i = 0; i < spheres.size(); ++i) {
-		delete spheres[i];
+	for(size_t i = 0; i < shapes.size(); ++i) {
+		delete shapes[i];
 	}
-	spheres.clear();
-
-	for(size_t i = 0; i < triangles.size(); ++i) {
-		delete triangles[i];
-	}
-	triangles.clear();
+	shapes.clear();
 
 	for(size_t i = 0; i < pointLights.size(); ++i) {
 		delete pointLights[i];
@@ -55,12 +50,8 @@ void Scene::destroy() {
 	areaLights.clear();
 }
 
-void Scene::add(Sphere *sphere) {
-	spheres.push_back(sphere);
-}
-
-void Scene::add(Triangle *triangle) {
-	triangles.push_back(triangle);
+void Scene::add(Shape *shape) {
+	shapes.push_back(shape);
 }
 
 void Scene::add(PointLight *light) {
@@ -75,31 +66,64 @@ void Scene::setAmbient(glm::vec3 &ambient) {
 	this->ambient = ambient;
 }
 
-// Access red, green, and blue components of pixel array
-#define R(row, col) ((row) * width * 3 + ((col) * 3))
-#define G(row, col) (R(row, col) + 1)
-#define B(row, col) (R(row, col) + 2)
-
-void Scene::raytrace() {
-	glm::vec3 eye(0.0, 0.0, 1.0);
+void Scene::raytrace(int antialiasing) {
+	glm::vec3 eye(0.0, 0.0, 1.5);
+	float sample = pow(2.0, antialiasing);
+	float inc = 1.0f / sample;
+	float adj = inc * inc;
+	int step = startProgress(antialiasing, height);
 	for(int i = 0; i < height; ++i) {
-		float y = i * (1.0 / height) * 2 - 1;
 		for(int j = 0; j < width; ++j) {
-			float x = j * (1.0 / width) * 2 - 1;
-			Ray ray(eye, glm::normalize(glm::vec3(x, y, 0.0) - eye)); 
-			glm::vec3 color = trace(ray, 0);
-			pixels[R(i, j)] = color.r;
-			pixels[G(i, j)] = color.g;
-			pixels[B(i, j)] = color.b;
+			glm::vec3 color(0);
+			for(float isample = 0.0f; isample < 1.0f; isample += inc) {
+				float y = (i + isample) * (1.0 / height) * 2 - 1;
+				for(float jsample = 0.0f; jsample < 1.0f; jsample += inc) {
+					float x = (j + jsample) * (1.0 / width) * 2 - 1;
+					Ray ray(eye, glm::normalize(glm::vec3(x, y, 0.0) - eye)); 
+					color += trace(ray, 0);
+				}
+			}
+			color *= adj;
+			pixels[AT_R(i, j)] = color.r;
+			pixels[AT_G(i, j)] = color.g;
+			pixels[AT_B(i, j)] = color.b;
 		}
+		updateProgress(i, step);
 	}
-
+	endProgress();
 }
 
 void Scene::draw() {
-
+	glRasterPos2i(0, 0);
+	glDrawPixels(width, height, GL_RGB, GL_FLOAT, pixels);
 }
 
 glm::vec3 Scene::trace(Ray &ray, int level) {
-	return glm::vec3(0);
+	if(level >= 10) {
+		return glm::vec3(0);
+	}
+
+	Shape *shape = NULL;
+	float t, closest = 10000000.0f;
+	for(size_t i = 0; i < shapes.size(); ++i) {
+		if(shapes[i]->intersect(ray, t)) {
+			if(t < closest) {
+				closest = t;
+				shape = shapes[i];
+			}
+		}
+	}
+
+	if(shape == NULL) {
+		return glm::vec3(0);
+	} else {
+		glm::vec3 intersection = shape->intersection(ray, closest);
+		glm::vec3 normal = shape->normal(intersection);
+		glm::vec3 color = ambient * shape->color(intersection);
+		for(size_t i = 0; i < pointLights.size(); ++i) {
+			glm::vec3 lightDir = glm::normalize(pointLights[i]->position - intersection);
+			color += pointLights[i]->color * shape->phong(intersection, -ray.direction, normal, lightDir);
+		}
+		return glm::clamp(color, 0.0f, 1.0f);
+	}
 }

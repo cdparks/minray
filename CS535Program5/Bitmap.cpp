@@ -163,3 +163,38 @@ long Bitmap::getSize() const {
 unsigned char *Bitmap::getPixels() {
 	return pixels;
 }
+// Bilinear interpolation
+glm::vec3 Bitmap::atUV(float u, float v) {
+	float row = v * height;
+	float col = u * width;
+
+	// Find closest integer indices
+	long minrow = clamp((long)row, 0L, height);
+	long mincol = clamp((long)col, 0L, width);
+	long maxrow = clamp((long)ceil(row), 0L, height);
+	long maxcol = clamp((long)ceil(col), 0L, width);
+
+	// Get values at 4 neighboring pixels
+	glm::vec3 Q00 = glm::vec3(RGBV3(pixels, minrow, mincol)) / 255.0f;
+	glm::vec3 Q10 = glm::vec3(RGBV3(pixels, minrow, maxcol)) / 255.0f;
+	glm::vec3 Q01 = glm::vec3(RGBV3(pixels, maxrow, mincol)) / 255.0f;
+	glm::vec3 Q11 = glm::vec3(RGBV3(pixels, maxrow, maxcol)) / 255.0f;
+
+	glm::vec3 R1, R2;
+	
+	// Interpolate along x component
+	if(maxcol == mincol) {
+		R1 = Q00;
+		R2 = Q01;
+	} else {
+		R1 = (maxcol - col) / (maxcol - mincol) * Q00 + (col - mincol) / (maxcol - mincol) * Q10;
+		R2 = (maxcol - col) / (maxcol - mincol) * Q01 + (col - mincol) / (maxcol - mincol) * Q11;
+	}
+
+	// Interpolate along y component
+	if(maxrow == minrow) {
+		return R1;
+	} else {
+		return (maxrow - row) / (maxrow - minrow) * R1 + (row - minrow) / (maxrow - minrow) * R2;
+	}
+}

@@ -16,23 +16,20 @@ using namespace std;
 int main(int argc, char **argv){
 	// Initialization functions
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);  
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);  
     glutInitWindowSize(WIDTH, HEIGHT);
     glutInitWindowPosition(0, 0);
-    glutCreateWindow("CS535 Program 4");
+    glutCreateWindow("CS535 Program 5");
 
     // Call-back functions
     glutDisplayFunc(DrawContext::Display);
     glutKeyboardFunc(DrawContext::Keyboard);
-    glutMouseFunc(DrawContext::Mouse);
-    glutPassiveMotionFunc(DrawContext::Motion);
-    glutMotionFunc(DrawContext::Motion);
 
     // Load extensions
     InitShaderAPI();
 
 	// Set up scene
-	DrawContext::Load("scenes/sample.txt");
+	DrawContext::Load("scenes/simple.txt");
 
     // Infinite Loop
     glutMainLoop();           

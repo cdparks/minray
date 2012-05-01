@@ -197,6 +197,7 @@
     <ClInclude Include="glm\gtx\wrap.hpp" />
     <ClInclude Include="glm\virtrev\xstream.hpp" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="LoadGL.h" />
     <ClInclude Include="Ray.h" />

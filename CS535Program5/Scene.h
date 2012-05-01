@@ -23,19 +23,39 @@ public:
 	~Scene();
 	Result load(string filename);
 	void status();
-	void add(Sphere *sphere);
-	void add(Triangle *triangle);
+	void add(Shape *shape);
 	void add(PointLight *light);
 	void add(AreaLight *light);
 	void setAmbient(glm::vec3 &light);
-	void raytrace();
+	void raytrace(int antialiasing=1);
 	void draw();
 private:
 	void destroy();
 	glm::vec3 trace(Ray &ray, int level);
+
+	inline int Scene::startProgress(int antialiasing, int height) {
+		cout << "Begin raytracing at antialiasing level " << antialiasing << ":" << endl;
+		cout << "+";
+		for(int i = 0; i < 20; ++i) {
+			cout << "-";
+		}
+		cout << "+" << endl;
+		cout << "+";
+		return height / 20;
+	}
+
+	inline void Scene::updateProgress(int i, int step) {
+		if(i && i % step == 0) {
+			cout << "=";
+		}
+	}
+
+	inline void Scene::endProgress() {
+		cout << "=+" << endl;
+	}
+
 	glm::vec3 ambient;
-	vector<Sphere*> spheres;
-	vector<Triangle*> triangles;
+	vector<Shape*> shapes;
 	vector<PointLight*> pointLights;
 	vector<AreaLight*> areaLights;
 	int height;
