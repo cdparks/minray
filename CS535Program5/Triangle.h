@@ -47,13 +47,24 @@ struct Triangle : Shape {
 		return true;
 	}
 
+	glm::vec3 transform(glm::vec3 &barycentric, glm::vec3 values[3]) {
+		return barycentric.x * values[0] + barycentric.y * values[1] + barycentric.z * values[2];
+	}
+
+	float transform(glm::vec3 &barycentric, float values[3]) {
+		return barycentric.x * values[0] + barycentric.y * values[1] + barycentric.z * values[2];
+	}
+
+	float transform(glm::vec3 &barycentric, float x, float y, float z) {
+		return barycentric.x * x + barycentric.y * y + barycentric.z * z;
+	}
+
 	// I was lost, so I looked here:
 	// http://gamedev.stackexchange.com/questions/23743/whats-the-most-efficient-way-to-find-barycentric-coordinates
-	virtual glm::vec3 intersection(Ray &ray, float t) {
-		glm::vec3 hit(ray.origin + ray.direction * t);
+	virtual void shading(glm::vec3 &intersection, Phong &p) {
 		glm::vec3 v0 = vertices[1] - vertices[0];
 		glm::vec3 v1 = vertices[2] - vertices[0];
-		glm::vec3 v2 = hit - vertices[0];
+		glm::vec3 v2 = intersection - vertices[0];
 
 		float d00 = glm::dot(v0, v0);
 		float d01 = glm::dot(v0, v1);
@@ -66,29 +77,18 @@ struct Triangle : Shape {
 		float w = (d00 * d21 - d01 * d20) / denom;
 		float u = 1.0f - v - w;
 
-		return glm::vec3(u, v, w);
-	}
+		glm::vec3 barycentric(u, v, w);
 
-	virtual glm::vec3 normal(glm::vec3 &intersection) {
-		return glm::normalize(normals[0] * intersection.x + normals[1] * intersection.y + normals[2] * intersection.z);
-	}
-
-	virtual glm::vec3 color(glm::vec3 &intersection) {
+		p.normal = glm::normalize(transform(barycentric, normals));
 		glm::vec3 tex(1);
 		if(texture) {
-			float u = texcoords[0].s * intersection.x + texcoords[1].s * intersection.y + texcoords[2].s * intersection.z;
-			float v = texcoords[0].t * intersection.x + texcoords[1].t * intersection.y + texcoords[2].t * intersection.z;
+			float u = transform(barycentric, texcoords[0].s, texcoords[1].s, texcoords[2].s);
+			float v = transform(barycentric, texcoords[0].t, texcoords[1].t, texcoords[2].t);
 			tex = texture->atUV(u, v);
 		}
-		return tex * (diffuse[0] * intersection.x + diffuse[1] * intersection.y + diffuse[2] * intersection.z);
-	}
-
-	virtual glm::vec3 phong(glm::vec3 &intersection, glm::vec3 &viewer, glm::vec3 &normal, glm::vec3 &light) {
-		glm::vec3 diff = color(intersection) * max(0.0f, glm::dot(normal, light));
-		glm::vec3 localSpec = specular[0] * intersection.x + specular[1] * intersection.y + specular[2] * intersection.z;
-		float localShiny = shiny[0] * intersection.x + shiny[1] * intersection.y + shiny[2] * intersection.z;
-		glm::vec3 spec = localSpec * pow(max(0.0f, glm::dot(viewer, glm::reflect(-light, normal))), localShiny);
-		return diff + spec;
+		p.diffuse = tex * transform(barycentric, diffuse);
+		p.specular = transform(barycentric, specular);
+		p.shiny = transform(barycentric, shiny);
 	}
 
 	glm::vec3 vertices[3];

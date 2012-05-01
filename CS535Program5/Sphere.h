@@ -37,22 +37,11 @@ struct Sphere : Shape {
 		return true;
 	}
 
-	virtual glm::vec3 intersection(Ray &ray, float t) {
-		return ray.origin + ray.direction * t;
-	}
-
-	virtual glm::vec3 normal(glm::vec3 &intersection) {
-		return glm::normalize((intersection - position) / radius);
-	}
-
-	virtual glm::vec3 color(glm::vec3 &intersection) {
-		return diffuse;
-	}
-
-	virtual glm::vec3 phong(glm::vec3 &intersection, glm::vec3 &viewer, glm::vec3 &normal, glm::vec3 &light) {				
-			glm::vec3 diff = diffuse * max(0.0f, glm::dot(normal, light));
-			glm::vec3 spec = specular * pow(max(0.0f, glm::dot(viewer, glm::reflect(-light, normal))), shiny);
-			return diff + spec;
+	virtual void shading(glm::vec3 &intersection, Phong &p) {
+		p.normal = glm::normalize((intersection - position) / radius);
+		p.diffuse = diffuse;
+		p.specular = specular;
+		p.shiny = shiny;
 	}
 
 	float radius;

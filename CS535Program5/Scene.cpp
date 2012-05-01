@@ -117,12 +117,15 @@ glm::vec3 Scene::trace(Ray &ray, int level) {
 	if(shape == NULL) {
 		return glm::vec3(0);
 	} else {
-		glm::vec3 intersection = shape->intersection(ray, closest);
-		glm::vec3 normal = shape->normal(intersection);
-		glm::vec3 color = ambient * shape->color(intersection);
+		Phong p;
+		glm::vec3 intersection = ray.origin + ray.direction * closest;
+		shape->shading(intersection, p);
+		glm::vec3 color = ambient * p.diffuse;
 		for(size_t i = 0; i < pointLights.size(); ++i) {
 			glm::vec3 lightDir = glm::normalize(pointLights[i]->position - intersection);
-			color += pointLights[i]->color * shape->phong(intersection, -ray.direction, normal, lightDir);
+			glm::vec3 diffuse = p.diffuse * max(0.0f, glm::dot(p.normal, lightDir));
+			glm::vec3 specular = p.specular * pow(max(0.0f, glm::dot(-ray.direction, glm::reflect(-lightDir, p.normal))), p.shiny);
+			color += pointLights[i]->color * (diffuse + specular);
 		}
 		return glm::clamp(color, 0.0f, 1.0f);
 	}
