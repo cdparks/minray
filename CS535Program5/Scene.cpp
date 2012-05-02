@@ -1,18 +1,26 @@
 #include <fstream>
 #include <iostream>
-#include <sstream>
 #include <algorithm>
+#include <iomanip>
 
 using namespace std;
 
 #include "Scene.h"
 #include "SceneLoader.h"
 
-const int Scene::MAXTRACE = 8;
+Scene::Scene():
+	width(0),
+	height(0),
+	maxlevel(0),
+	antialiasing(false),
+	pixels(NULL)
+{}
 
-Scene::Scene(int height, int width):
-	height(height),
+Scene::Scene(int width, int height, int maxlevel, bool antialiasing):
 	width(width),
+	height(height),
+	maxlevel(maxlevel),
+	antialiasing(antialiasing),
 	pixels(NULL)
 {	
 	pixels = new float[height * width * 3];
@@ -24,9 +32,17 @@ Result Scene::load(string filename) {
 }
 
 void Scene::status() {
-	cout << "Shapes:       " << shapes.size() << endl;
-	cout << "Point Lights: " << pointLights.size() << endl;
-	cout << "Area Lights:  " << areaLights.size() << endl;
+	int FIELD = 20;
+	string edge = "| ";
+	cout << left;
+	cout << setw(FIELD) << "Scene content:" << endl;
+	cout << setw(FIELD) << " Shapes" << edge << shapes.size() << endl;
+	cout << setw(FIELD) << " Point Lights" << edge << pointLights.size() << endl;
+	cout << setw(FIELD) << "Scene settings:" << endl;
+	cout << setw(FIELD) << " Height" << edge << height << endl;
+	cout << setw(FIELD) << " Width" << edge << width << endl;
+	cout << setw(FIELD) << " Max Recursion" << edge << maxlevel << endl;
+	cout << setw(FIELD) << " Antialiasing" << edge << (antialiasing ? "ON" : "OFF") << endl;
 }
 
 Scene::~Scene() {
@@ -68,12 +84,16 @@ void Scene::setAmbient(glm::vec3 &ambient) {
 	this->ambient = ambient;
 }
 
-void Scene::raytrace(int antialiasing) {
+void Scene::raytrace() {
 	glm::vec3 eye(0.0, 0.0, 1.5);
-	float sample = pow(2.0, antialiasing);
-	float inc = 1.0f / sample;
-	float adj = inc * inc;
-	int step = startProgress(antialiasing, height);
+	int step = startProgress();
+
+	float inc = 1.0f, adj = 1.0f;
+	if(antialiasing) {
+		inc = 0.5f;
+		adj = inc * inc;
+	}
+
 	for(int i = 0; i < height; ++i) {
 		for(int j = 0; j < width; ++j) {
 			glm::vec3 color(0);
@@ -101,7 +121,7 @@ void Scene::draw() {
 }
 
 glm::vec3 Scene::trace(Ray &ray, int level) {
-	if(level >= MAXTRACE) {
+	if(level >= maxlevel) {
 		return glm::vec3(0);
 	}
 
@@ -142,7 +162,7 @@ glm::vec3 Scene::trace(Ray &ray, int level) {
 				color += pointLights[i]->color * (diffuse + specular);
 			}
 		}
-		if(level < MAXTRACE) {
+		if(level < maxlevel) {
 			if(m.reflection > 0) {
 				color += m.reflection * trace(reflect(shape, intersection, ray.direction, m.normal), level + 1);
 			}

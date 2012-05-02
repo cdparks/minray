@@ -7,7 +7,6 @@
 using namespace std;
 
 #include "Globals.h"
-#include "Shader.h"
 #include "Scene.h"
 
 class DrawContext{
@@ -16,7 +15,7 @@ public:
 	// callbacks).
 	static void Display(void);
 	static void Keyboard(unsigned char key, int x, int y);
-	static void Load(string filename);
+	static void Load(string filename, int width, int height, int level);
 
 private:
 	// Get private singleton
@@ -30,15 +29,10 @@ private:
 	// Private callbacks called by public callbacks.
 	void on_display(void);
 	void on_keyboard(unsigned char key, int x, int y);
-	void on_load(string filename);
+	void on_load(string filename, int width, int height, int level);
 
 	// Drawing variables
-	Scene scene;					// Ray tracer scene
-
-	// State variables
-	GLint width;					// Current width
-	GLint height;					// Current height
-
+	Scene *scene;					// Ray tracer scene
 };
 
 #endif

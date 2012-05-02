@@ -16,26 +16,24 @@ DrawContext& DrawContext::get_instance() {
 	return dc;
 }
 
-// Initialize window and logical state
 DrawContext::DrawContext():
-	scene(HEIGHT, WIDTH),
-	width(WIDTH),
-	height(HEIGHT)
-{
+	scene(NULL)
+{}
+
+void DrawContext::on_load(string filename, int width, int height, int level) {
+	scene = new Scene(width, height, level, false);
 	glDisable(GL_DEPTH_TEST);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glViewport(0, 0, width, height);
 	gluOrtho2D(0, width, 0, height);
-}
 
-void DrawContext::on_load(string filename) {
-	if(scene.load(filename) == FAILURE) {
+	if(scene->load(filename) == FAILURE) {
 		exit(0);
 	} else {
-		scene.status();
-		scene.raytrace(1);
+		scene->status();
+		scene->raytrace();
 	}
 }
 
@@ -44,7 +42,7 @@ void DrawContext::on_display() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 	// Draw raytraced scene
-	scene.draw();
+	scene->draw();
 
 	glFlush(); //forces previously issued OpenGL commands to begin execution
 	glFinish(); //forces all previously issued OpenGl commands to be complete
@@ -75,8 +73,8 @@ void DrawContext::Keyboard(unsigned char key, int x, int y) {
 	get_instance().on_keyboard(key, x, y); 
 }
 
-void DrawContext::Load(string filename) {
-	get_instance().on_load(filename);
+void DrawContext::Load(string filename, int width, int height, int level) {
+	get_instance().on_load(filename, width, height, level);
 }
 
 #endif

@@ -76,7 +76,6 @@
   <ItemGroup>
     <ClInclude Include="AreaLight.h" />
     <ClInclude Include="Bitmap.h" />
-    <ClInclude Include="DrawContext.h" />
     <ClInclude Include="glm\core\func_common.hpp" />
     <ClInclude Include="glm\core\func_exponential.hpp" />
     <ClInclude Include="glm\core\func_geometric.hpp" />
@@ -206,7 +205,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bitmap.cpp" />
-    <ClCompile Include="DrawContext.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneLoader.cpp" />
