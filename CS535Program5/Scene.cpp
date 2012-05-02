@@ -8,6 +8,8 @@ using namespace std;
 #include "Scene.h"
 #include "SceneLoader.h"
 
+const int Scene::MAXTRACE = 8;
+
 Scene::Scene(int height, int width):
 	height(height),
 	width(width),
@@ -99,7 +101,7 @@ void Scene::draw() {
 }
 
 glm::vec3 Scene::trace(Ray &ray, int level) {
-	if(level >= 10) {
+	if(level >= MAXTRACE) {
 		return glm::vec3(0);
 	}
 
@@ -117,16 +119,49 @@ glm::vec3 Scene::trace(Ray &ray, int level) {
 	if(shape == NULL) {
 		return glm::vec3(0);
 	} else {
-		Phong p;
+		Material m;
 		glm::vec3 intersection = ray.origin + ray.direction * closest;
-		shape->shading(intersection, p);
-		glm::vec3 color = ambient * p.diffuse;
+		shape->shading(intersection, m);
+		glm::vec3 color = ambient * m.diffuse;
 		for(size_t i = 0; i < pointLights.size(); ++i) {
-			glm::vec3 lightDir = glm::normalize(pointLights[i]->position - intersection);
-			glm::vec3 diffuse = p.diffuse * max(0.0f, glm::dot(p.normal, lightDir));
-			glm::vec3 specular = p.specular * pow(max(0.0f, glm::dot(-ray.direction, glm::reflect(-lightDir, p.normal))), p.shiny);
-			color += pointLights[i]->color * (diffuse + specular);
+			glm::vec3 toLight = pointLights[i]->position - intersection;
+			float distance = glm::length(toLight);
+			glm::vec3 lightDir = toLight / distance;
+			Ray shadow(intersection, lightDir);
+			bool occluded = false;
+			for(size_t j = 0; j < shapes.size(); ++j) {
+				float t;
+				if(shapes[j] != shape && shapes[j]->intersect(shadow, t) && t < distance) {
+					occluded = true;
+					break;
+				} 
+			}
+			if(!occluded) {
+				glm::vec3 diffuse = m.diffuse * max(0.0f, glm::dot(m.normal, lightDir));
+				glm::vec3 specular = m.specular * pow(max(0.0f, glm::dot(-ray.direction, glm::reflect(-lightDir, m.normal))), m.shiny);
+				color += pointLights[i]->color * (diffuse + specular);
+			}
 		}
+		if(level < MAXTRACE) {
+			if(m.reflection > 0) {
+				color += m.reflection * trace(reflect(shape, intersection, ray.direction, m.normal), level + 1);
+			}
+		} 
 		return glm::clamp(color, 0.0f, 1.0f);
 	}
+	return glm::vec3(0);
 }
+
+Ray Scene::reflect(Shape *shape, glm::vec3 &intersection, glm::vec3 &direction, glm::vec3 &normal) {
+	Ray newRay(intersection, glm::normalize(glm::reflect(direction, normal)));
+	nudge(shape, newRay);
+	return newRay;
+}
+
+void Scene::nudge(Shape *shape, Ray &ray) {
+	float t;
+	if(shape->intersect(ray, t)) {
+		ray.origin += ray.direction * (t + 0.001f);
+	}
+}
+

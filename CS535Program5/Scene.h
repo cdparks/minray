@@ -27,11 +27,13 @@ public:
 	void add(PointLight *light);
 	void add(AreaLight *light);
 	void setAmbient(glm::vec3 &light);
-	void raytrace(int antialiasing=1);
+	void raytrace(int antialiasing);
 	void draw();
 private:
 	void destroy();
 	glm::vec3 trace(Ray &ray, int level);
+	void nudge(Shape *shape, Ray &ray);
+	Ray Scene::reflect(Shape *shape, glm::vec3 &intersection, glm::vec3 &direction, glm::vec3 &normal);
 
 	inline int Scene::startProgress(int antialiasing, int height) {
 		cout << "Begin raytracing at antialiasing level " << antialiasing << ":" << endl;
@@ -61,6 +63,8 @@ private:
 	int height;
 	int width;
 	float *pixels;
+
+	static const int MAXTRACE;
 };
 
 #endif
