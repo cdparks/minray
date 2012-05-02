@@ -170,14 +170,16 @@ glm::vec3 Bitmap::atUV(float u, float v) {
 
 	long irow = clamp((long)row, 0L, height);
 	long icol = clamp((long)col, 0L, width);
+	long irowPlus = clamp(irow + 1L, 0L, height);
+	long icolPlus = clamp(icol + 1L, 0L, width);
 
 	float dr = row - irow;
 	float dc = col - icol;
 
-	glm::vec3 Q00 = glm::vec3(RGBV3(pixels, irow + 0, icol + 0)) / 255.0f;
-	glm::vec3 Q01 = glm::vec3(RGBV3(pixels, irow + 0, icol + 1)) / 255.0f;
-	glm::vec3 Q10 = glm::vec3(RGBV3(pixels, irow + 1, icol + 0)) / 255.0f;
-	glm::vec3 Q11 = glm::vec3(RGBV3(pixels, irow + 1, icol + 1)) / 255.0f;
+	glm::vec3 Q00 = glm::vec3(RGBV3(pixels, irow, icol)) / 255.0f;
+	glm::vec3 Q01 = glm::vec3(RGBV3(pixels, irow, icolPlus)) / 255.0f;
+	glm::vec3 Q10 = glm::vec3(RGBV3(pixels, irowPlus, icol)) / 255.0f;
+	glm::vec3 Q11 = glm::vec3(RGBV3(pixels, irowPlus, icolPlus)) / 255.0f;
 
 	glm::vec3 R1 = Q00 * (1.0f - dc) + Q01 * dc;
 	glm::vec3 R2 = Q10 * (1.0f - dc) + Q11 * dc;
