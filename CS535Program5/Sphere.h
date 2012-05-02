@@ -12,7 +12,7 @@ struct Sphere : Shape {
 		diffuse(0.0),
 		specular(0.0),
 		shiny(0.0),
-		refraction(0.0)
+		reflection(0.0)
 	{}
 
 	virtual bool intersect(Ray &ray, float &t) {
@@ -24,9 +24,9 @@ struct Sphere : Shape {
 		}
 		float sqrtD = sqrt(d);
 		float t0 = (-b - sqrtD) / 2;
-		if(t0 <= 0) {
+		if(t0 <= EPS) {
 			float t1 = (-b + sqrtD) / 2;
-			if(t1 <= 0) {
+			if(t1 <= EPS) {
 				return false;
 			} else {
 				t = t1;
@@ -37,11 +37,12 @@ struct Sphere : Shape {
 		return true;
 	}
 
-	virtual void shading(glm::vec3 &intersection, Phong &p) {
-		p.normal = glm::normalize((intersection - position) / radius);
-		p.diffuse = diffuse;
-		p.specular = specular;
-		p.shiny = shiny;
+	virtual void shading(glm::vec3 &intersection, Material &m) {
+		m.normal = glm::normalize((intersection - position) / radius);
+		m.reflection = reflection;
+		m.diffuse = diffuse;
+		m.specular = specular;
+		m.shiny = shiny;
 	}
 
 	float radius;
@@ -49,7 +50,7 @@ struct Sphere : Shape {
 	glm::vec3 diffuse;
 	glm::vec3 specular;
 	float shiny;
-	float refraction;
+	float reflection;
 };
 
 #endif
