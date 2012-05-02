@@ -35,7 +35,7 @@ void DrawContext::on_load(string filename) {
 		exit(0);
 	} else {
 		scene.status();
-		scene.raytrace();
+		scene.raytrace(1);
 	}
 }
 
