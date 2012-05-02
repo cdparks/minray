@@ -13,14 +13,8 @@ Result SceneLoader::load(string filename, Scene &scene) {
 	}
 
 	lineno = 0;
-	stringstream ss = nextLine();
-	int numObjects;
-	ss >> numObjects;
-	if(ss.fail()) {
-		return loadError("Could not read number of objects in scene from file '" + filename + ".'");
-	}
+	stringstream ss;
 
-	// Get ambient light
 	if(readTag("amb:", ss) == FAILURE) {
 		return FAILURE;
 	}
@@ -29,9 +23,9 @@ Result SceneLoader::load(string filename, Scene &scene) {
 	scene.setAmbient(ambient);
 
 	// Read in objects
-	for(int i = 0; i < numObjects; ++i) {
-		ss = nextLine();
+	while(advance()) {
 		string type;
+		ss = line();
 		ss >> type;
 		Result readObject;
 		if(type == "sphere") {
@@ -52,12 +46,20 @@ Result SceneLoader::load(string filename, Scene &scene) {
 	return SUCCESS;
 }
 
-stringstream SceneLoader::nextLine() {
-	stringstream ss;
+bool SceneLoader::advance() {
 	string line;
-	for(getline(fin, line), lineno += 1; line.size() == 0 || line[0] == '#'; getline(fin, line), lineno += 1)
+	for(getline(fin, line), lineno += 1; fin.good() && (line.size() == 0 || line[0] == '#'); getline(fin, line), lineno += 1)
 		; // Skip empty lines and comments;
-	ss << line;
+	if(fin.good()) {
+		buffer = line;
+		return true;
+	}
+	return false;
+}
+
+stringstream SceneLoader::line() {
+	stringstream ss;
+	ss << buffer;
 	return ss;
 }
 
@@ -69,41 +71,20 @@ Result SceneLoader::loadError(string message) {
 
 Result SceneLoader::readTag(string expected, stringstream &ss) {
 	string prefix;
-	ss = nextLine();
-	ss >> prefix;
-	if(prefix != expected) {
-		return loadError("Expected attribute tag '" + expected + ".' Found '" + prefix + "' instead.");
+	if(advance()) {
+		ss = line();
+		ss >> prefix;
+		if(prefix != expected) {
+			return loadError("Expected attribute tag '" + expected + ".' Found '" + prefix + "' instead.");
+		}
+		return SUCCESS;
 	}
-	return SUCCESS;
-}
-
-Result SceneLoader::readMaterial(Shape *shape) {
-	stringstream ss;
-	if(readTag("mt:", ss) == FAILURE) {
-		return FAILURE;
-	}
-	string material;
-	ss >> material;
-	if(material == "Phong") {
-		shape->material = PHONG;
-	} else if(material == "glass") {
-		shape->material = GLASS;
-	} else if(material == "mirror") {
-		shape->material = MIRROR;
-	} else {
-		return loadError("Unrecognized material type '" + material + ".'");
-	}
-	return SUCCESS;
+	return loadError("Unexpected EOF while looking for attribute tag '" + expected + ".'");
 }
 
 Result SceneLoader::readSphere(Scene &scene) {
 	Sphere *sphere = new Sphere;
 	stringstream ss;
-
-	// Read material
-	if(readMaterial(sphere) == FAILURE) {
-		goto error;
-	}
 	
 	// Read position
 	if(readTag("pos:", ss) == FAILURE) {
@@ -111,28 +92,22 @@ Result SceneLoader::readSphere(Scene &scene) {
 	}
 	glm::vec3 &position = sphere->position;
 	ss >> position.x >> position.y >> position.z;
-	
-	// Read Phong (specular, diffuse, shininess)
-	if(readTag("Phong:", ss) == FAILURE) {
-		goto error;
-	}
-	glm::vec3 &diff = sphere->diffuse;
-	glm::vec3 &spec = sphere->specular;
-	ss >> diff.r >> diff.g >> diff.b;
-	ss >> spec.r >> spec.g >> spec.b;
-	ss >> sphere->shiny;
-
-	// Read refraction index
-	if(readTag("ref:", ss) == FAILURE) {
-		goto error;
-	}
-	ss >> sphere->refraction;
 
 	// Read radius
 	if(readTag("rad:", ss) == FAILURE) {
 		goto error;
 	}
 	ss >> sphere->radius;
+	
+	// Read material (specular, diffuse, Phong exponent, reflection index)
+	if(readTag("mat:", ss) == FAILURE) {
+		goto error;
+	}
+	glm::vec3 &diff = sphere->diffuse;
+	glm::vec3 &spec = sphere->specular;
+	ss >> diff.r >> diff.g >> diff.b;
+	ss >> spec.r >> spec.g >> spec.b;
+	ss >> sphere->shiny >> sphere->reflection;
 
 	// Add to shape vector
 	scene.add(sphere);
@@ -144,14 +119,9 @@ error:
 
 Result SceneLoader::readTriangle(Scene &scene) {
 	Triangle *triangle = new Triangle;
+	glm::vec3 crossed;
 	stringstream ss;
 	string texturefile;
-
-	// Read material
-	Result r = readMaterial(triangle);
-	if(r == FAILURE) {
-		goto error;
-	}
 
 	// Read texture
 	if(readTag("tex:", ss) == FAILURE) {
@@ -182,21 +152,15 @@ Result SceneLoader::readTriangle(Scene &scene) {
 		ss >> normal.x >> normal.y >> normal.z;
 		normal = glm::normalize(normal);
 
-		// Read Phong (specular, diffuse, shininess)
-		if(readTag("Phong:", ss) == FAILURE) {
+		// Read material (specular, diffuse, Phong exponent, reflection index)
+		if(readTag("mat:", ss) == FAILURE) {
 			goto error;
 		}
 		glm::vec3 &diff = triangle->diffuse[i];
 		glm::vec3 &spec = triangle->specular[i];
 		ss >> diff.r >> diff.g >> diff.b;
 		ss >> spec.r >> spec.g >> spec.b;
-		ss >> triangle->shiny[i];
-
-		// Read refraction index
-		if(readTag("ref:", ss) == FAILURE) {
-			goto error;
-		}
-		ss >> triangle->refraction[i];
+		ss >> triangle->shiny[i] >> triangle->reflection[i];
 
 		// Read uv texture coordinates
 		if(readTag("uv:", ss) == FAILURE) {
@@ -205,6 +169,11 @@ Result SceneLoader::readTriangle(Scene &scene) {
 		glm::vec2 &texcoords = triangle->texcoords[i];
 		ss >> texcoords.s >> texcoords.t;
 	}
+
+	// Preprocess for barycentric cooridinates
+	crossed = glm::cross(triangle->vertices[1] - triangle->vertices[0], triangle->vertices[2] - triangle->vertices[0]);
+	triangle->normal = glm::normalize(crossed);
+	triangle->area = glm::dot(crossed, triangle->normal);
 
 	// Add to shape vector
 	scene.add(triangle);

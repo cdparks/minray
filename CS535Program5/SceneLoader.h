@@ -14,16 +14,17 @@ public:
 	SceneLoader():lineno(0), fin() {}
 	Result load(string filename, Scene &scene);
 private:
-	stringstream nextLine();
+	bool advance();
+	stringstream line();
 	Result readSphere(Scene &scene);
 	Result readTriangle(Scene &scene);
 	Result readAreaLight(Scene &scene);
 	Result readPointLight(Scene &scene);
-	Result readMaterial(Shape *shape);
 	Result loadError(string message);
 	Result readTag(string expected, stringstream &ss);
 	int lineno;
 	ifstream fin;
+	string buffer;
 };
 
 #endif
