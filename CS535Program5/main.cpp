@@ -14,6 +14,11 @@ using namespace std;
 #include "LoadGL.h"
 
 int main(int argc, char **argv){
+	if(argc != 2) {
+		cerr << "Usage: CS535Program5 scenefile" << endl;
+		exit(0);
+	}
+
 	// Initialization functions
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);  
@@ -25,14 +30,11 @@ int main(int argc, char **argv){
     glutDisplayFunc(DrawContext::Display);
     glutKeyboardFunc(DrawContext::Keyboard);
 
-    // Load extensions
-    InitShaderAPI();
-
 	// Set up scene
-	DrawContext::Load("scenes/simple.txt");
+	DrawContext::Load(argv[1]);
 
     // Infinite Loop
-    glutMainLoop();           
+    glutMainLoop();
     return 0;
 }
 // End of the program
