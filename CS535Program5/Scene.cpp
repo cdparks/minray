@@ -164,9 +164,10 @@ glm::vec3 Scene::trace(Ray &ray, int level) {
 		}
 		if(level < maxlevel) {
 			if(m.reflection > 0) {
-				color += m.reflection * trace(reflect(shape, intersection, ray.direction, m.normal), level + 1);
+				//color += m.reflection * trace(reflect(shape, intersection, ray.direction, m.normal), level + 1);
+				color = color * (1.0f - m.reflection) + m.reflection * trace(reflect(shape, intersection, ray.direction, m.normal), level + 1);
 			}
-		} 
+		}
 		return glm::clamp(color, 0.0f, 1.0f);
 	}
 	return glm::vec3(0);

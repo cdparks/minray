@@ -37,7 +37,7 @@ private:
 	Ray Scene::reflect(Shape *shape, glm::vec3 &intersection, glm::vec3 &direction, glm::vec3 &normal);
 
 	inline int Scene::startProgress() {
-		cout << "Begin raytracing:" << endl;
+		cout << "Ray tracing progress" << endl;
 		for(int i = 0; i < 20; ++i) {
 			cout << "=";
 		}
