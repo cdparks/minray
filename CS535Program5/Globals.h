@@ -1,7 +1,9 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-#include "LoadGL.h"
+#include <Windows.h>
+#include <gl\GL.h>
+#include <glut.h>
 
 // Global data
 const GLint WIDTH = 800;

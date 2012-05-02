@@ -9,9 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Shaders">
-      <UniqueIdentifier>{0c6a2306-2af0-4d63-a843-39f4fbb14a51}</UniqueIdentifier>
-    </Filter>
     <Filter Include="glm">
       <UniqueIdentifier>{d18f3c76-7e48-4162-8098-373882fb669e}</UniqueIdentifier>
     </Filter>
@@ -38,19 +35,7 @@
     <ClInclude Include="DrawContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="glext.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Globals.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LoadGL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="wglext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
@@ -431,9 +416,6 @@
     <ClInclude Include="SceneLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Light.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bitmap.cpp">
@@ -442,13 +424,7 @@
     <ClCompile Include="DrawContext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LoadGL.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
@@ -459,12 +435,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="fragment_shader.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="vertex_shader.vert">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="glm\core\func_common.inl">
       <Filter>glm\core</Filter>
     </None>
