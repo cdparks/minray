@@ -1,0 +1,105 @@
+amb: .2 .2 .2
+
+# Back spheres
+sphere
+pos: -0.75 0.25 -1.5
+rad: 0.25
+mat: 0.2 0.3 0.3 .4 .4 .2 10 0.5
+
+sphere
+pos: 0.75 0.25 -1.5
+rad: 0.25
+mat: 0.2 0.3 0.3 .4 .4 .2 10 0.5
+
+# Middle spheres
+sphere
+pos: -0.75 -0.25 -1
+rad: 0.25
+mat: 0.2 0.3 0.3 .4 .4 .2 10 0.5
+
+sphere
+pos: 0.75 -0.25 -1
+rad: 0.25
+mat: 0.2 0.3 0.3 .4 .4 .2 10 0.5
+
+# Front spheres
+sphere
+pos: -0.75 -0.75 -0.75
+rad: 0.25
+mat: 0.2 0.3 0.3 .4 .4 .2 10 0.5
+
+sphere
+pos: 0.75 -0.75 -0.75
+rad: 0.25
+mat: 0.2 0.3 0.3 .4 .4 .2 10 0.5
+
+# Floor
+triangle
+tex: scenes/checker.bmp
+pos: 1 -1 0
+nor: 0 1 0
+mat: 0.0 0.0 1.0 0.1 0.1 0.1 50 0.8
+uv: 1 0
+pos: -1 -1 -2
+nor: 0 1 0
+mat: 0.0 1.0 0.0 0.1 0.1 0.1 50 0.8
+uv: 0 1
+pos: -1 -1 0
+nor: 0 1 0
+mat: 1.0 0.0 0.0 0.1 0.1 0.1 50 0.8
+uv: 0 0
+
+triangle
+tex: scenes/checker.bmp
+pos: 1 -1 0
+nor: 0 1 0
+mat: 0.0 0.0 1.0 0.1 0.1 0.1 50 0.8
+uv: 1 0
+pos: 1 -1 -2
+nor: 0 1 0
+mat: 1.0 0.0 0.0 0.1 0.1 0.1 50 0.8
+uv: 1 1
+pos: -1 -1 -2
+nor: 0 1 0
+mat: 0.0 1.0 0.0 0.1 0.1 0.1 50 0.8
+uv: 0 1
+
+# Background
+triangle
+tex: null
+pos: -1 -1 -2
+nor: 0 0 1
+mat: 0.1 0.2 0.3 0.4 0.35 0.5 50 1
+uv: 0 0
+pos: 1 -1 -2
+nor: 0 0 1
+mat: 0.1 0.2 0.3 0.4 0.35 0.5 50 1
+uv: 1 0
+pos: -1 1 -2
+nor: 0 0 1
+mat: 0.1 0.2 0.3 0.4 0.35 0.5 50 1
+uv: 0 1
+
+triangle
+tex: null
+pos: -1 1 -2
+nor: 0 0 1
+mat: 0.1 0.2 0.3 0.4 0.35 0.5 50 1
+uv: 0 1
+pos: 1 -1 -2
+nor: 0 0 1
+mat: 0.1 0.2 0.3 0.4 0.35 0.5 50 1
+uv: 1 0
+pos: 1 1 -2
+nor: 0 0 1
+mat: 0.1 0.2 0.3 0.4 0.35 0.5 50 1
+uv: 1 1
+
+# Side Lights
+point-light
+pos: 1.5 1 0.5
+col: 1.0 1.0 1.0
+
+point-light
+pos: -1.5 1 0.5
+col: 1.0 1.0 1.0

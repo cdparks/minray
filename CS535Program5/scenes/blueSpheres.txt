@@ -1,0 +1,198 @@
+amb: 0.2 0.2 0.2
+
+# Blue spheres
+sphere
+pos: -0.75 -0.5 -0.5
+rad: 0.2
+mat: 0.0 0.3 0.6 .4 .4 .2 20 0.3
+
+sphere
+pos: 0.75 -0.5 -0.5
+rad: 0.2
+mat: 0.0 0.3 0.6 .4 .4 .2 20 0.3
+
+sphere
+pos: -0.5 -0.65 -0.25
+rad: 0.2
+mat: 0.0 0.3 0.6 .4 .4 .2 20 0.3
+
+sphere
+pos: 0.5 -0.65 -0.25
+rad: 0.2
+mat: 0.0 0.3 0.6 .4 .4 .2 20 0.3
+
+sphere
+pos: 0 -0.70 0
+rad: 0.2
+mat: 0.0 0.3 0.6 .4 .4 .2 20 0.3
+
+
+# Mirror sphere
+sphere
+pos: 0 -0.25 -0.75
+rad: 0.25
+mat: 0.5 0.5 0.5 0.2 0.2 0.2 30 1
+
+# Front
+triangle
+tex: scenes/planet.bmp
+pos: 1 -1 -1
+nor: 0 0 1
+mat: 0.5 0.5 0.5 0 0 0 0 0
+uv: 1 0
+pos: -1 1 -1
+nor: 0 0 1
+mat: 0.5 0.5 0.5 0 0 0 0 0
+uv: 0 1
+pos: -1 -1 -1
+nor: 0 0 1
+mat: 0.5 0.5 0.5 0 0 0 0 0
+uv: 0 0
+
+triangle
+tex: scenes/planet.bmp
+pos: 1 -1 -1
+nor: 0 0 1
+mat: 0.5 0.5 0.5 0 0 0 0 0
+uv: 1 0
+pos: -1 1 -1
+nor: 0 0 1
+mat: 0.5 0.5 0.5 0 0 0 0 0
+uv: 0 1
+pos: 1 1 -1
+nor: 0 0 1
+mat: 0.5 0.5 0.5 0 0 0 0 0
+uv: 1 1
+
+# Left
+triangle
+tex: null
+pos: -1 -1 -1
+nor: 1 0 0
+mat: 0.0 0.1 0.2 0.3 0.25 0.4 25 0.8
+uv: 1 0
+pos: -1 1 0
+nor: 1 0 0
+mat: 0.0 0.1 0.2 0.3 0.25 0.4 25 0.8
+uv: 0 1
+pos: -1 -1 0
+nor: 1 0 0
+mat: 0.0 0.1 0.2 0.3 0.25 0.4 25 0.8
+uv: 0 0
+
+triangle
+tex: null
+pos: -1 -1 -1
+nor: 1 0 0
+mat: 0.0 0.1 0.2 0.3 0.25 0.4 25 0.8
+uv: 1 0
+pos: -1 1 0
+nor: 1 0 0
+mat: 0.0 0.1 0.2 0.3 0.25 0.4 25 0.8
+uv: 0 1
+pos: -1 1 -1
+nor: 1 0 0
+mat: 0.0 0.1 0.2 0.3 0.25 0.4 25 0.8
+uv: 1 1
+
+# Right
+triangle
+tex: null
+pos: 1 -1 -1
+nor: -1 0 0
+mat: 0.0 0.1 0.2 0.3 0.25 0.4 25 0.8
+uv: 1 0
+pos: 1 1 0
+nor: -1 0 0
+mat: 0.0 0.1 0.2 0.3 0.25 0.4 25 0.8
+uv: 0 1
+pos: 1 -1 0
+nor: -1 0 0
+mat: 0.0 0.1 0.2 0.3 0.25 0.4 25 0.8
+uv: 0 0
+
+triangle
+tex: null
+pos: 1 -1 -1
+nor: -1 0 0
+mat: 0.0 0.1 0.2 0.3 0.25 0.4 25 0.8
+uv: 1 0
+pos: 1 1 0
+nor: -1 0 0
+mat: 0.0 0.1 0.2 0.3 0.25 0.4 25 0.8
+uv: 0 1
+pos: 1 1 -1
+nor: -1 0 0
+mat: 0.0 0.1 0.2 0.3 0.25 0.4 25 0.8
+uv: 1 1
+
+# Bottom
+triangle
+tex: null
+pos: 1 -1 0
+nor: 0 1 0
+mat: 0.0 0.1 0.2 0.3 0.25 0.4 25 0.8
+uv: 1 0
+pos: -1 -1 -1
+nor: 0 1 0
+mat: 0.0 0.1 0.2 0.3 0.25 0.4 25 0.8
+uv: 0 1
+pos: -1 -1 0
+nor: 0 1 0
+mat: 0.0 0.1 0.2 0.3 0.25 0.4 25 0.8
+uv: 0 0
+
+triangle
+tex: null
+pos: 1 -1 0
+nor: 0 1 0
+mat: 0.0 0.1 0.2 0.3 0.25 0.4 25 0.8
+uv: 1 0
+pos: -1 -1 -1
+nor: 0 1 0
+mat: 0.0 0.1 0.2 0.3 0.25 0.4 25 0.8
+uv: 0 1
+pos: 1 -1 -1
+nor: 0 1 0
+mat: 0.0 0.1 0.2 0.3 0.25 0.4 25 0.8
+uv: 1 1
+
+# Top
+triangle
+tex: null
+pos: 1 1 0
+nor: 0 -1 0
+mat: 0.0 0.1 0.2 0.3 0.25 0.4 25 0.8
+uv: 1 0
+pos: -1 1 -1
+nor: 0 -1 0
+mat: 0.0 0.1 0.2 0.3 0.25 0.4 25 0.8
+uv: 0 1
+pos: -1 1 0
+nor: 0 -1 0
+mat: 0.0 0.1 0.2 0.3 0.25 0.4 25 0.8
+uv: 0 0
+
+triangle
+tex: null
+pos: 1 1 0
+nor: 0 -1 0
+mat: 0.0 0.1 0.2 0.3 0.25 0.4 25 0.8
+uv: 1 0
+pos: -1 1 -1
+nor: 0 -1 0
+mat: 0.0 0.1 0.2 0.3 0.25 0.4 25 0.8
+uv: 0 1
+pos: 1 1 -1
+nor: 0 -1 0
+mat: 0.0 0.1 0.2 0.3 0.25 0.4 25 0.8
+uv: 1 1
+
+# Side lights
+point-light
+pos: 0.8 0.8 0
+col: 1.0 1.0 1.0
+
+point-light
+pos: -0.8 0.8 0
+col: 1.0 1.0 1.0
