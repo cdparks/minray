@@ -313,7 +313,6 @@
     <None Include="glm\gtx\vector_query.inl" />
     <None Include="glm\gtx\verbose_operator.inl" />
     <None Include="glm\gtx\wrap.inl" />
-    <None Include="scenes\sample.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

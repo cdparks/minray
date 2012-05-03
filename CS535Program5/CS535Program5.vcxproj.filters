@@ -738,8 +738,5 @@
     <None Include="glm\gtx\wrap.inl">
       <Filter>glm\gtx</Filter>
     </None>
-    <None Include="scenes\sample.txt">
-      <Filter>scenes</Filter>
-    </None>
   </ItemGroup>
 </Project>
