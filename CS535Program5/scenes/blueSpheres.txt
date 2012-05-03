@@ -1,9 +1,25 @@
+# Last Run
+#
+# Scene content:
+#  Shapes             | 17
+#  Point Lights       | 0
+#  Area Lights        | 1
+# Scene settings:
+#  Height             | 800
+#  Width              | 800
+#  Max Recursion      | 10
+#  Antialiasing       | ON
+# Ray tracing progress
+# ====================
+# ====================
+# Elapsed time [mm:ss] - 29:06
+#
+
 amb: 0.2 0.2 0.2
 
 # Blue spheres
 
 # Back row
-
 sphere
 pos: -0.7 -0.6 -0.75
 rad: 0.2
@@ -47,30 +63,30 @@ triangle
 tex: scenes/planet.bmp
 pos: 1 -1 -1
 nor: 0 0 1
-mat: 0.5 0.5 0.5 0 0 0 0 0
+mat: 1 1 1 0 0 0 0 0
 uv: 1 0
 pos: -1 1 -1
 nor: 0 0 1
-mat: 0.5 0.5 0.5 0 0 0 0 0
+mat: 1 1 1 0 0 0 0 0
 uv: 0 1
 pos: -1 -1 -1
 nor: 0 0 1
-mat: 0.5 0.5 0.5 0 0 0 0 0
+mat: 1 1 1 0 0 0 0 0
 uv: 0 0
 
 triangle
 tex: scenes/planet.bmp
 pos: 1 -1 -1
 nor: 0 0 1
-mat: 0.5 0.5 0.5 0 0 0 0 0
+mat: 1 1 1 0 0 0 0 0
 uv: 1 0
 pos: -1 1 -1
 nor: 0 0 1
-mat: 0.5 0.5 0.5 0 0 0 0 0
+mat: 1 1 1 0 0 0 0 0
 uv: 0 1
 pos: 1 1 -1
 nor: 0 0 1
-mat: 0.5 0.5 0.5 0 0 0 0 0
+mat: 1 1 1 0 0 0 0 0
 uv: 1 1
 
 # Left
@@ -197,11 +213,17 @@ nor: 0 -1 0
 mat: 0.0 0.1 0.2 0.3 0.25 0.4 25 0.8
 uv: 1 1
 
-# Side lights
-point-light
-pos: 0.8 0.8 0
-col: 1.0 1.0 1.0
+# Top light
+#area-light
+#pos: 0.125 0.9 0
+#pos: 0.125 0.9 -0.25
+#pos: -0.125 0.9 -0.25
+#pos: -0.125 0.9 0
+#col: 1 1 1
 
-point-light
-pos: -0.8 0.8 0
-col: 1.0 1.0 1.0
+area-light
+pos: -0.5 0.9 0
+pos: -0.5 0.9 -0.5
+pos: -0.75 0.9 -0.5
+pos: -0.75 0.9 0
+col: 1 1 1

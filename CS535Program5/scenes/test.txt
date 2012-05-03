@@ -1,0 +1,69 @@
+# Last Run
+#
+# Scene content:
+#  Shapes             | 4
+#  Point Lights       | 1
+#  Area Lights        | 1
+# Scene settings:
+#  Height             | 800
+#  Width              | 800
+#  Max Recursion      | 10
+#  Antialiasing       | ON
+# Ray tracing progress
+# ====================
+# ====================
+# Elapsed time [mm:ss] - 03:52
+#
+
+amb: .3 .3 .3
+
+sphere
+pos: -1 0.5 -0.5
+rad: 0.75
+mat: .3 .3 .3 .5 .5 .5 20 0.9
+
+sphere
+pos: 1 0.75 -0.75
+rad: 0.5
+mat: .3 .3 .3 .5 .5 .5 20 0.9
+
+triangle
+tex: scenes/checker.bmp
+pos: -10 -2 10
+nor: 0 1 0
+mat: 0.60648 0.22648 0 0.628281 0.555802 0.366065 50 0.6
+uv: 0 0
+pos: -10 -2 -10
+nor: 0 1 0
+mat: 0.60648 0.22648 0 0.628281 0.555802 0.366065 50 0.6
+uv: 0 1
+pos: 10 -2 -10
+nor: 0 1 0
+mat: 0.60648 0.22648 0 0.628281 0.555802 0.366065 50 0.6
+uv: 1 1
+
+triangle
+tex: scenes/checker.bmp
+pos: -10 -2 10
+nor: 0 1 0
+mat: 0.60648 0.22648 0 0.628281 0.555802 0.366065 50 0.6
+uv: 0 0
+pos: 10 -2 -10
+nor: 0 1 0
+mat: 0.60648 0.22648 0 0.628281 0.555802 0.366065 50 0.6
+uv: 1 1
+pos: 10 -2 10
+nor: 0 1 0
+mat: 0.60648 0.22648 0 0.628281 0.555802 0.366065 50 0.6
+uv: 1 0
+
+point-light
+pos: 1 1 3 
+col: 0.8 0.8 0.8
+
+area-light
+pos: 0.125 2.0 0
+pos: 0.125 2.0 -0.125
+pos: -0.125 2.0 -0.125
+pos: -0.125 2.0 0
+col: 1.0 1.0 1.0

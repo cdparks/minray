@@ -1,3 +1,20 @@
+# Last Run:
+#
+# Scene content:
+#  Shapes             | 11
+#  Point Lights       | 0
+#  Area Lights        | 2
+# Scene settings:
+#  Height             | 800
+#  Width              | 800
+#  Max Recursion      | 10
+#  Antialiasing       | ON
+# Ray tracing progress
+# ====================
+# ====================
+# Elapsed time [mm:ss] - 13:11
+#
+
 amb: .2 .2 .2
 
 # Back spheres
@@ -101,11 +118,31 @@ nor: 0 0 1
 mat: 0.2 0.3 0.4 0.4 0.35 0.5 50 0.7
 uv: 1 1
 
-# Side Lights
-point-light
-pos: 1 1 0.5
+# Side Area lights
+#area-light
+#pos: -1 2.0 -0.5
+#pos: -1 2.0 -0.75
+#pos: -1.25 2.0 -0.75
+#pos: -1.25 2.0 -0.5
+#col: 1.0 1.0 1.0
+
+#area-light
+#pos: 1 2.0 -0.5
+#pos: 1 2.0 -0.75
+#pos: 1.25 2.0 -0.75
+#pos: 1.25 2.0 -0.5
+#col: 1.0 1.0 1.0
+
+area-light
+pos: -1.25 1.0 -0.5
+pos: -1.25 1.0 -0.75
+pos: -1.5 1.0 -0.75
+pos: -1.5 1.0 -0.5
 col: 1.0 1.0 1.0
 
-point-light
-pos: -1 1 0.5
+area-light
+pos: 1.25 1.0 -0.5
+pos: 1.25 1.0 -0.75
+pos: 1.5 1.0 -0.75
+pos: 1.5 1.0 -0.5
 col: 1.0 1.0 1.0
