@@ -230,6 +230,9 @@ Result SceneLoader::readAreaLight(Scene &scene) {
 	glm::vec3 &color = light->color;
 	ss >> color.x >> color.y >> color.z;
 
+	// Precompute samples
+	light->precompute();
+
 	// Add to area light vector
 	scene.add(light);
 	return SUCCESS;
