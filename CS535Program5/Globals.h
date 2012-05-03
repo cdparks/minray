@@ -13,6 +13,7 @@ const GLfloat PI2 = 2 * PI;
 const GLfloat PI_OVER_180 = PI / 180.0;
 const GLfloat PI_OVER_2 = PI / 2.0;
 const float EPS = std::numeric_limits<float>::epsilon();
+const int AREASAMPLE = 5;
 
 // I can never decide whether 0 or 1 should be failure
 enum Result { SUCCESS, FAILURE };

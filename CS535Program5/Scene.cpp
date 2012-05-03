@@ -38,6 +38,7 @@ void Scene::status() {
 	cout << setw(FIELD) << "Scene content:" << endl;
 	cout << setw(FIELD) << " Shapes" << edge << shapes.size() << endl;
 	cout << setw(FIELD) << " Point Lights" << edge << pointLights.size() << endl;
+	cout << setw(FIELD) << " Area Lights" << edge << areaLights.size() << endl;
 	cout << setw(FIELD) << "Scene settings:" << endl;
 	cout << setw(FIELD) << " Height" << edge << height << endl;
 	cout << setw(FIELD) << " Width" << edge << width << endl;
@@ -142,35 +143,56 @@ glm::vec3 Scene::trace(Ray &ray, int level) {
 		Material m;
 		glm::vec3 intersection = ray.origin + ray.direction * closest;
 		shape->shading(intersection, m);
-		glm::vec3 color = ambient * m.diffuse;
-		for(size_t i = 0; i < pointLights.size(); ++i) {
-			glm::vec3 toLight = pointLights[i]->position - intersection;
-			float distance = glm::length(toLight);
-			glm::vec3 lightDir = toLight / distance;
-			Ray shadow(intersection, lightDir);
-			bool occluded = false;
-			for(size_t j = 0; j < shapes.size(); ++j) {
-				float t;
-				if(shapes[j] != shape && shapes[j]->intersect(shadow, t) && t < distance) {
-					occluded = true;
-					break;
-				} 
-			}
-			if(!occluded) {
-				glm::vec3 diffuse = m.diffuse * max(0.0f, glm::dot(m.normal, lightDir));
-				glm::vec3 specular = m.specular * pow(max(0.0f, glm::dot(-ray.direction, glm::reflect(-lightDir, m.normal))), m.shiny);
-				color += pointLights[i]->color * (diffuse + specular);
-			}
-		}
+		glm::vec3 color = ambient * m.diffuse + illuminate(shape, m, -ray.direction, intersection);
 		if(level < maxlevel) {
 			if(m.reflection > 0) {
-				//color += m.reflection * trace(reflect(shape, intersection, ray.direction, m.normal), level + 1);
-				color = color * (1.0f - m.reflection) + m.reflection * trace(reflect(shape, intersection, ray.direction, m.normal), level + 1);
+				color += m.reflection * trace(reflect(shape, intersection, ray.direction, m.normal), level + 1);
 			}
 		}
 		return glm::clamp(color, 0.0f, 1.0f);
 	}
 	return glm::vec3(0);
+}
+
+glm::vec3 Scene::shade(Shape *shape, Material &m, glm::vec3 &viewer, glm::vec3 &intersection, glm::vec3 &light, glm::vec3 &intensity) {
+	glm::vec3 color(0);
+	glm::vec3 toLight = light - intersection;
+	float distance = glm::length(toLight);
+	glm::vec3 lightDir = toLight / distance;
+	Ray shadow(intersection, lightDir);
+	bool occluded = false;
+	for(size_t j = 0; j < shapes.size(); ++j) {
+		float t;
+		if(shapes[j] != shape && shapes[j]->intersect(shadow, t) && t < distance) {
+			occluded = true;
+			break;
+		} 
+	}
+	if(!occluded) {
+		glm::vec3 diffuse = m.diffuse * max(0.0f, glm::dot(m.normal, lightDir));
+		glm::vec3 specular = m.specular * pow(max(0.0f, glm::dot(viewer, glm::reflect(-lightDir, m.normal))), m.shiny);
+		color = intensity * (diffuse + specular);
+	}
+	return color;
+}
+
+glm::vec3 Scene::illuminate(Shape *shape, Material &m,  glm::vec3 &viewer, glm::vec3 &intersection) {
+	glm::vec3 color(0);
+	// Point lights
+	for(size_t i = 0; i < pointLights.size(); ++i) {
+		color += shade(shape, m, viewer, intersection, pointLights[i]->position, pointLights[i]->color);
+	}
+	float factor = 1.0f / (AREASAMPLE * AREASAMPLE);
+	// Area lights
+	for(size_t i = 0; i < areaLights.size(); ++i) {
+		for(int j = 0; j < AREASAMPLE; ++j) {
+			for(int k = 0; k < AREASAMPLE; ++k) {
+				glm::vec3 light = areaLights[i]->sample(j, k);
+				color += factor * shade(shape, m, viewer, intersection, light, areaLights[i]->color);
+			}
+		}
+	}
+	return color;
 }
 
 Ray Scene::reflect(Shape *shape, glm::vec3 &intersection, glm::vec3 &direction, glm::vec3 &normal) {

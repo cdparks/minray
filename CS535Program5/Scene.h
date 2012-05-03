@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <iomanip>
 
 using namespace std;
 
@@ -33,10 +34,13 @@ public:
 private:
 	void destroy();
 	glm::vec3 trace(Ray &ray, int level);
+	glm::vec3 illuminate(Shape *shape, Material &m, glm::vec3 &viewer, glm::vec3 &intersection);
+	glm::vec3 shade(Shape *shape, Material &m, glm::vec3 &viewer, glm::vec3 &intersection, glm::vec3 &light, glm::vec3 &intensity);
 	void nudge(Shape *shape, Ray &ray);
 	Ray Scene::reflect(Shape *shape, glm::vec3 &intersection, glm::vec3 &direction, glm::vec3 &normal);
 
 	inline int Scene::startProgress() {
+		start = clock();
 		cout << "Ray tracing progress" << endl;
 		for(int i = 0; i < 20; ++i) {
 			cout << "=";
@@ -53,6 +57,9 @@ private:
 
 	inline void Scene::endProgress() {
 		cout << "=" << endl;
+		clock_t seconds = (clock() - start) / CLOCKS_PER_SEC;
+		cout << "Elapsed time [mm:ss] - " << right << setw(2) << setfill('0') << seconds / 60;
+		cout << ":" << setw(2) << setfill('0') << seconds % 60 << endl;
 	}
 
 	glm::vec3 ambient;
@@ -63,6 +70,7 @@ private:
 	int width;
 	int maxlevel;
 	bool antialiasing;
+	clock_t start;
 	float *pixels;
 };
 
