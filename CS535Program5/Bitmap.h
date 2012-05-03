@@ -1,5 +1,6 @@
 #ifndef BITMAP_H
 #define BITMAP_H
+// Used for textures
 
 #include "Globals.h"
 #include "glm/glm.hpp"

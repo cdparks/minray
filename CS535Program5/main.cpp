@@ -1,8 +1,6 @@
-// Ray Tracer
-
+// Ray Tracer for CS535
 // Author: Christopher D. Parks
 // Email: chris.parks@uky.edu
-// Class: CS535
 // Date: 2 May 2012
 
 #include <iostream>
@@ -57,7 +55,7 @@ int main(int argc, char **argv){
 	bool antialiasing = true;
 
 	for(int i = 1; i < argc; ++i) {
-		if(strcmp(argv[i], "--debug") == 0) {
+		if(strcmp(argv[i], "--debug") == 0) { // if --debug, make running faster
 			height = 400;
 			width = 400;
 			level = 5;
@@ -94,15 +92,13 @@ int main(int argc, char **argv){
 	glViewport(0, 0, width, height);
 	gluOrtho2D(0, width, 0, height);
 
-	// Load and raytrace
+	// Load, raytrace, and draw
 	if(scene->load(filename) == FAILURE) {
 		exit(0);
 	}
 	scene->status();
 	scene->raytrace();
-
-    // Infinite Loop
     glutMainLoop();
+
     return 0;
 }
-// End of the program

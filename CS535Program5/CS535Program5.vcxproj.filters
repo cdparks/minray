@@ -27,6 +27,15 @@
     <Filter Include="scenes">
       <UniqueIdentifier>{dcdbb31d-6113-46d4-8045-0a22f050b2fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="images">
+      <UniqueIdentifier>{da3256a3-816b-4d70-a9f4-61c6b6d2661b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="images\progress">
+      <UniqueIdentifier>{596d163a-b9e8-43b4-90ee-3b066df6fee2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="images\final">
+      <UniqueIdentifier>{b6076cd2-44d7-4f10-ab6e-aa8f91342927}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bitmap.h">
@@ -737,6 +746,57 @@
     </None>
     <None Include="glm\gtx\wrap.inl">
       <Filter>glm\gtx</Filter>
+    </None>
+    <None Include="scenes\blueSpheres.txt">
+      <Filter>scenes</Filter>
+    </None>
+    <None Include="scenes\checker.bmp">
+      <Filter>scenes</Filter>
+    </None>
+    <None Include="scenes\planet.bmp">
+      <Filter>scenes</Filter>
+    </None>
+    <None Include="scenes\redSpheres.txt">
+      <Filter>scenes</Filter>
+    </None>
+    <None Include="scenes\test.txt">
+      <Filter>scenes</Filter>
+    </None>
+    <None Include="images\final\blueSpheres.png">
+      <Filter>images\final</Filter>
+    </None>
+    <None Include="images\final\redSpheres.png">
+      <Filter>images\final</Filter>
+    </None>
+    <None Include="images\final\test.png">
+      <Filter>images\final</Filter>
+    </None>
+    <None Include="images\progress\progress1.png">
+      <Filter>images\progress</Filter>
+    </None>
+    <None Include="images\progress\progress2.png">
+      <Filter>images\progress</Filter>
+    </None>
+    <None Include="images\progress\progress3.png">
+      <Filter>images\progress</Filter>
+    </None>
+    <None Include="images\progress\progress4.png">
+      <Filter>images\progress</Filter>
+    </None>
+    <None Include="images\progress\progress5.png">
+      <Filter>images\progress</Filter>
+    </None>
+    <None Include="images\progress\progress6.png">
+      <Filter>images\progress</Filter>
+    </None>
+    <None Include="images\progress\progress7.png">
+      <Filter>images\progress</Filter>
+    </None>
+    <None Include="images\progress\progress8.png">
+      <Filter>images\progress</Filter>
+    </None>
+    <None Include="images\progress\progress9.png">
+      <Filter>images\progress</Filter>
     </None>
   </ItemGroup>
 </Project>

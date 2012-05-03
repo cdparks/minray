@@ -8,12 +8,8 @@
 // Global data
 const GLint WIDTH = 800;
 const GLint HEIGHT = 800;
-const GLfloat PI = 3.14159265;
-const GLfloat PI2 = 2 * PI;
-const GLfloat PI_OVER_180 = PI / 180.0;
-const GLfloat PI_OVER_2 = PI / 2.0;
 const float EPS = std::numeric_limits<float>::epsilon();
-const int AREASAMPLE = 5;
+const int AREASAMPLE = 5; // Sample area lights 5 across and 5 down (for 25 samples)
 
 // I can never decide whether 0 or 1 should be failure
 enum Result { SUCCESS, FAILURE };

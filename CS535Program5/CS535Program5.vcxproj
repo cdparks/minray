@@ -313,6 +313,23 @@
     <None Include="glm\gtx\vector_query.inl" />
     <None Include="glm\gtx\verbose_operator.inl" />
     <None Include="glm\gtx\wrap.inl" />
+    <None Include="images\final\blueSpheres.png" />
+    <None Include="images\final\redSpheres.png" />
+    <None Include="images\final\test.png" />
+    <None Include="images\progress\progress1.png" />
+    <None Include="images\progress\progress2.png" />
+    <None Include="images\progress\progress3.png" />
+    <None Include="images\progress\progress4.png" />
+    <None Include="images\progress\progress5.png" />
+    <None Include="images\progress\progress6.png" />
+    <None Include="images\progress\progress7.png" />
+    <None Include="images\progress\progress8.png" />
+    <None Include="images\progress\progress9.png" />
+    <None Include="scenes\blueSpheres.txt" />
+    <None Include="scenes\checker.bmp" />
+    <None Include="scenes\planet.bmp" />
+    <None Include="scenes\redSpheres.txt" />
+    <None Include="scenes\test.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,11 +1,13 @@
 #ifndef TRIANGLE_H
 #define TRIANGLE_H
+// Simple triangle object for raytracing
 
 #include "Shape.h"
 #include "Bitmap.h"
 #include "glm/ext.hpp"
 
 struct Triangle : Shape {
+	// Constructor
 	Triangle():
 		Shape(),
 		texture(NULL)
@@ -35,7 +37,7 @@ struct Triangle : Shape {
 		// Get hit point
 		glm::vec3 hit = ray.origin + ray.direction * t;
 
-		// Check hit is inside triangle
+		// Check hit is inside triangle (and precompute areas)
 		areas[0] = glm::dot(normal, glm::cross(vertices[2] - vertices[1], hit - vertices[1]));		
 		if(areas[0] < 0) {
 			return false;
@@ -53,18 +55,23 @@ struct Triangle : Shape {
 		return true;
 	}
 
+	// Transform vec3 by barycentric coordinates
 	glm::vec3 transform(glm::vec3 &barycentric, glm::vec3 values[3]) {
 		return barycentric.x * values[0] + barycentric.y * values[1] + barycentric.z * values[2];
 	}
-
+	
+	// Transform float array by barycentric coordinates
 	float transform(glm::vec3 &barycentric, float values[3]) {
 		return barycentric.x * values[0] + barycentric.y * values[1] + barycentric.z * values[2];
 	}
 
+	// Transform floats by barycentric coordinates
 	float transform(glm::vec3 &barycentric, float x, float y, float z) {
 		return barycentric.x * x + barycentric.y * y + barycentric.z * z;
 	}
 
+	// More complicated than sphere. Must compute barycentric
+	// coordinates and interpolate most values between vertices.
 	virtual void shading(glm::vec3 &intersection, Material &m) {
 		glm::vec3 barycentric(areas[0] / area, areas[1] / area, areas[2] / area);
 

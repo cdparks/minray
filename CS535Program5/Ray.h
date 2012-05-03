@@ -1,5 +1,6 @@
 #ifndef RAY_H
 #define RAY_H
+// Ray used for intersection tests
 
 #include "glm/glm.hpp"
 

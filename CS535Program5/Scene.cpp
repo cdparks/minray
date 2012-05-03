@@ -8,6 +8,7 @@ using namespace std;
 #include "Scene.h"
 #include "SceneLoader.h"
 
+// Constructor
 Scene::Scene():
 	width(0),
 	height(0),
@@ -16,6 +17,7 @@ Scene::Scene():
 	pixels(NULL)
 {}
 
+// Constructor - builds pixel array
 Scene::Scene(int width, int height, int maxlevel, bool antialiasing):
 	width(width),
 	height(height),
@@ -26,11 +28,13 @@ Scene::Scene(int width, int height, int maxlevel, bool antialiasing):
 	pixels = new float[height * width * 3];
 }
 
+// Use SceneLoader to fill in scene
 Result Scene::load(string filename) {
 	destroy();
 	return SceneLoader().load(filename, *this);
 }
 
+// Print useful things
 void Scene::status() {
 	int FIELD = 20;
 	string edge = "| ";
@@ -46,12 +50,14 @@ void Scene::status() {
 	cout << setw(FIELD) << " Antialiasing" << edge << (antialiasing ? "ON" : "OFF") << endl;
 }
 
+// Clear pixels and objects
 Scene::~Scene() {
 	delete pixels;
 	pixels = NULL;
 	destroy();
 }
 
+// Clear objects
 void Scene::destroy() {
 	for(size_t i = 0; i < shapes.size(); ++i) {
 		delete shapes[i];
@@ -69,6 +75,7 @@ void Scene::destroy() {
 	areaLights.clear();
 }
 
+// Add objects to scene (used by SceneLoader)
 void Scene::add(Shape *shape) {
 	shapes.push_back(shape);
 }
@@ -85,16 +92,19 @@ void Scene::setAmbient(glm::vec3 &ambient) {
 	this->ambient = ambient;
 }
 
+// Public interface to ray tracing
 void Scene::raytrace() {
 	glm::vec3 eye(0.0, 0.0, 1.5);
 	int step = startProgress();
 
+	// Set antialiasing coefficients
 	float inc = 1.0f, adj = 1.0f;
 	if(antialiasing) {
 		inc = 0.5f;
 		adj = inc * inc;
 	}
 
+	// For pixel in screen ...
 	for(int i = 0; i < height; ++i) {
 		for(int j = 0; j < width; ++j) {
 			glm::vec3 color(0);
@@ -102,7 +112,11 @@ void Scene::raytrace() {
 				float y = (i + isample) * (1.0 / height) * 2 - 1;
 				for(float jsample = 0.0f; jsample < 1.0f; jsample += inc) {
 					float x = (j + jsample) * (1.0 / width) * 2 - 1;
+
+					// ... generate ray in normalized device coordinates ...
 					Ray ray(eye, glm::normalize(glm::vec3(x, y, 0.0) - eye)); 
+					
+					// .. and trace it.
 					color += trace(ray, 0);
 				}
 			}
@@ -116,16 +130,19 @@ void Scene::raytrace() {
 	endProgress();
 }
 
+// Write pixel buffer to screen
 void Scene::draw() {
 	glRasterPos2i(0, 0);
 	glDrawPixels(width, height, GL_RGB, GL_FLOAT, pixels);
 }
 
+// Internal recursive ray tracing function
 glm::vec3 Scene::trace(Ray &ray, int level) {
 	if(level >= maxlevel) {
 		return glm::vec3(0);
 	}
 
+	// Find closest intersected shape
 	Shape *shape = NULL;
 	float t, closest = 10000000.0f;
 	for(size_t i = 0; i < shapes.size(); ++i) {
@@ -138,12 +155,18 @@ glm::vec3 Scene::trace(Ray &ray, int level) {
 	}
 
 	if(shape == NULL) {
+		// No intersection, return black
 		return glm::vec3(0);
 	} else {
+		// Get shading information at intersection
 		Material m;
 		glm::vec3 intersection = ray.origin + ray.direction * closest;
 		shape->shading(intersection, m);
+
+		// Shade using Phong illumination model, shadow rays, and soft shadows
 		glm::vec3 color = ambient * m.diffuse + illuminate(shape, m, -ray.direction, intersection);
+
+		// Reflect if possible
 		if(level < maxlevel) {
 			if(m.reflection > 0) {
 				color += m.reflection * trace(reflect(shape, intersection, ray.direction, m.normal), level + 1);
@@ -154,6 +177,8 @@ glm::vec3 Scene::trace(Ray &ray, int level) {
 	return glm::vec3(0);
 }
 
+// Apply a single light to a shape at intersection if the
+// shape is not occluded.
 glm::vec3 Scene::shade(Shape *shape, Material &m, glm::vec3 &viewer, glm::vec3 &intersection, glm::vec3 &light, glm::vec3 &intensity) {
 	glm::vec3 color(0);
 	glm::vec3 toLight = light - intersection;
@@ -176,6 +201,7 @@ glm::vec3 Scene::shade(Shape *shape, Material &m, glm::vec3 &viewer, glm::vec3 &
 	return color;
 }
 
+// Illuminate shape with all lights in scene
 glm::vec3 Scene::illuminate(Shape *shape, Material &m,  glm::vec3 &viewer, glm::vec3 &intersection) {
 	glm::vec3 color(0);
 	// Point lights
@@ -195,12 +221,14 @@ glm::vec3 Scene::illuminate(Shape *shape, Material &m,  glm::vec3 &viewer, glm::
 	return color;
 }
 
+// Generate new reflection ray.
 Ray Scene::reflect(Shape *shape, glm::vec3 &intersection, glm::vec3 &direction, glm::vec3 &normal) {
 	Ray newRay(intersection, glm::normalize(glm::reflect(direction, normal)));
 	nudge(shape, newRay);
 	return newRay;
 }
 
+// Fix self-intersection
 void Scene::nudge(Shape *shape, Ray &ray) {
 	float t;
 	if(shape->intersect(ray, t)) {
