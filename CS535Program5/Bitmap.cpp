@@ -181,7 +181,18 @@ glm::vec3 Bitmap::atUV(float u, float v) {
 	glm::vec3 Q10 = glm::vec3(RGBV3(pixels, irowPlus, icol)) / 255.0f;
 	glm::vec3 Q11 = glm::vec3(RGBV3(pixels, irowPlus, icolPlus)) / 255.0f;
 
-	glm::vec3 R1 = Q00 * (1.0f - dc) + Q01 * dc;
-	glm::vec3 R2 = Q10 * (1.0f - dc) + Q11 * dc;
-	return R1 * (1.0f - dr) + R2 * dr;
+	glm::vec3 R1, R2;
+	if(icol == icolPlus) {
+		R1 = Q00;
+		R2 = Q10;
+	} else {
+		R1 = Q00 * (1.0f - dc) + Q01 * dc;
+		R2 = Q10 * (1.0f - dc) + Q11 * dc;
+	}
+
+	if(irow == irowPlus) {
+		return R1;
+	} else {
+		return R1 * (1.0f - dr) + R2 * dr;
+	}
 }
