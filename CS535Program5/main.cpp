@@ -53,14 +53,14 @@ int main(int argc, char **argv){
 	char *filename = NULL;
 	int height = HEIGHT;
 	int width = WIDTH;
-	int level = 8;
+	int level = 10;
 	bool antialiasing = true;
 
 	for(int i = 1; i < argc; ++i) {
 		if(strcmp(argv[i], "--debug") == 0) {
 			height = 400;
 			width = 400;
-			level = 4;
+			level = 5;
 			antialiasing = false;
 		} else {
 			filename = argv[i];
