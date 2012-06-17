@@ -3,7 +3,7 @@
 <a href="http://imgur.com/TvT1s"><img src="http://i.imgur.com/TvT1s.png" title="" alt="" /></a>
 
 ## Notes
-Usage: CS535Program5 scenefile [--debug]
+`Usage: CS535Program5 scenefile [--debug]`
 
 This program ray traces the provided scene and draws it using OpenGL.
 During tracing, the following interface is shown:
