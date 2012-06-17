@@ -116,7 +116,7 @@ Some example scene files are in the scenes/ directory.
 ## Files included in archive:
 
 	// This file
-	README.txt
+	README.md
 
 	// Solution file
 	CS535Program5.sln
