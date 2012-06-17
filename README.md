@@ -1,4 +1,4 @@
-# CS535 Program 5 - A simple ray tracer
+# minray - A simple ray tracer
 ---------------------------------------
 <a href="http://imgur.com/TvT1s"><img src="http://i.imgur.com/TvT1s.png" title="" alt="" /></a>
 
@@ -120,7 +120,7 @@ Some example scene files are in the scenes/ directory.
 4. "Preview" mode
 5. Break dependency on Windows-format bitmaps
 
-## Files included in archive:
+## Files included in archive
 
 	// This file
 	README.md
@@ -130,14 +130,14 @@ Some example scene files are in the scenes/ directory.
 
 	// Source directory
 	CS535Program5/
-		
+
 		// main routine
 		main.cpp
 
 		// Raytracing and drawing routines
 		Scene.cpp
 		Scene.h
-		
+
 		// Read scene file and load objects
 		SceneLoader.cpp
 		SceneLoader.h
@@ -147,18 +147,18 @@ Some example scene files are in the scenes/ directory.
 		Shape.h
 		Sphere.h
 		Triangle.h
-		
+
 		// Lights
 		AreaLight.h
 		PointLight.h
-		
+
 		// Loads Windows format 24bit BGR bitmaps
 		Bitmap.cpp
 		Bitmap.h
-		
+
 		// Useful constants, enums, and functions
 		Globals.h
-		
+
 		// Scene description files and textures
 		scenes/
 			blueSpheres.txt
@@ -190,20 +190,20 @@ Some example scene files are in the scenes/ directory.
 				progress8.png
 				progress9.png
 
-		
+
 		// Visual Studio files
 		CS535Program5.vcxproj
 		CS535Program5.vcxproj.filters
 		CS535Program5.vcxproj.user
-		
+
 		// Vector math library
 		glm/
 			(There's a lot of files here)
 
-## Acknowledgements:
+## Acknowledgements
 * [GLM OpenGL Math Library](http://glm.g-truc.net/)
 * Information about [Triangle intersection and Barycentric Coordinates](http://www.cs.washington.edu/education/courses/csep557/10au/lectures/triangle_intersection.pdf)
 
-## Contact:
+## Contact
 Christopher D. Parks, chris.parks@uky.edu
 
