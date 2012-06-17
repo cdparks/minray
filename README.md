@@ -1,10 +1,12 @@
-CS535 Program 5
+# CS535 Program 5 - A simple ray tracer
+---------------------------------------
+![Spheres](CS535Program5/images/final/blueSpheres.png)
 
-Notes:
-	Usage: CS535Program5 scenefile [--debug]
+## Notes
+Usage: CS535Program5 scenefile [--debug]
 
-	This program ray traces the provided scene and draws it using OpenGL.
-	During tracing, the following interface is shown:
+This program ray traces the provided scene and draws it using OpenGL.
+During tracing, the following interface is shown:
 
 	Scene content:
 	 Shapes             | 4
@@ -18,8 +20,8 @@ Notes:
 	Ray tracing progress
 	====================
 
-	If the --debug flag is used, the following settings are used instead:
-	
+If the --debug flag is used, the following settings are used instead:
+
 	Scene content:
 	 Shapes             | 4
 	 Point Lights       | 1
@@ -32,8 +34,8 @@ Notes:
 	Ray tracing progress
 	====================
 
-	The scenefiles read by this program are slightly different than the one
-	shown in the assignment. The following is a short, valid scenefile:
+The scenefiles read by this program are slightly different than the one
+shown in the assignment. The following is a short, valid scenefile:
 
 	# Last Run
 	#
@@ -93,25 +95,25 @@ Notes:
 	pos: -0.125 2.0 -0.125
 	pos: -0.125 2.0 0
 	col: 1.0 1.0 1.0
-		
-	Some example scene files are in the scenes/ directory. 
+	
+Some example scene files are in the scenes/ directory. 
 
-Completed requirements:
-	1. Triangle intersection
-	2. Sphere intersection
-	3. Triangle texture mapping
-	4. Sphere & triangle Phong shading
-	5. Antialiasing (4X supersampling)
-	6. Recursive reflection (10 recursion limit)
-	7. Test scene (images/final/redSpheres.png or blueSpheres.png)
+## Completed requirements
+1. Triangle intersection
+2. Sphere intersection
+3. Triangle texture mapping
+4. Sphere & triangle Phong shading
+5. Antialiasing (4X supersampling)
+6. Recursive reflection (10 recursion limit)
+7. Test scene (images/final/redSpheres.png or blueSpheres.png)
 
-Completed extra credit:
-	1. Shadow rays - I showed this at the presentation.
-	2. Soft shadow for area light source - This is new. The updated final
-		images in in images/final/ have area lights, so this should be
-		easy to verify.
+## Completed extra credit
+1. Shadow rays - I showed this at the presentation.
+2. Soft shadow for area light source - This is new. The updated final
+	images in in images/final/ have area lights, so this should be
+	easy to verify.
 
-Files included in archive:
+## Files included in archive:
 
 	// This file
 	README.txt
@@ -191,13 +193,10 @@ Files included in archive:
 		glm/
 			(There's a lot of files here)
 
-Acknowledgements:
-	GLM OpenGL Math Library
-		-http://glm.g-truc.net/
-	Information about Triangle intersection and Barycentric Coordinates
-		-http://www.cs.washington.edu/education/courses/
-			csep557/10au/lectures/triangle_intersection.pdf
+## Acknowledgements:
+* [GLM OpenGL Math Library](http://glm.g-truc.net/)
+* Information about [Triangle intersection and Barycentric Coordinates](http://www.cs.washington.edu/education/courses/csep557/10au/lectures/triangle_intersection.pdf)
 
-Contact:
-	Christopher D. Parks, chris.parks@uky.edu
+## Contact:
+Christopher D. Parks, chris.parks@uky.edu
 
