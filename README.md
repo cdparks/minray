@@ -1,6 +1,6 @@
 # CS535 Program 5 - A simple ray tracer
 ---------------------------------------
-![Spheres](/CS535Program5/images/final/blueSpheres.png)
+<a href="http://s24.photobucket.com/albums/c4/i_am_h3ro/?action=view&amp;current=blueSpheres.png" target="_blank"><img src="http://i24.photobucket.com/albums/c4/i_am_h3ro/blueSpheres.png" border="0"></a>
 
 ## Notes
 Usage: CS535Program5 scenefile [--debug]
