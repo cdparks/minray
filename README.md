@@ -1,6 +1,6 @@
 # CS535 Program 5 - A simple ray tracer
 ---------------------------------------
-![Spheres](CS535Program5/images/final/blueSpheres.png)
+![Spheres](/CS535Program5/images/final/blueSpheres.png)
 
 ## Notes
 Usage: CS535Program5 scenefile [--debug]
@@ -110,7 +110,7 @@ Some example scene files are in the scenes/ directory.
 ## Completed extra credit
 1. Shadow rays - I showed this at the presentation.
 2. Soft shadow for area light source - This is new. The updated final
-	images in in images/final/ have area lights, so this should be
+	images in images/final/ have area lights, so this should be
 	easy to verify.
 
 ## Files included in archive:
