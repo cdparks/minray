@@ -24,8 +24,8 @@ void on_display() {
 	// Draw raytraced scene
 	scene->draw();
 
-	glFlush(); //forces previously issued OpenGL commands to begin execution
-	glFinish(); //forces all previously issued OpenGl commands to be complete
+	glFlush();
+	glFinish();
 	glutSwapBuffers();
 }
 
@@ -71,15 +71,15 @@ int main(int argc, char **argv){
 	}
 
 	// Initialization functions
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);  
-    glutInitWindowSize(width, height);
-    glutInitWindowPosition(0, 0);
-    glutCreateWindow("CS535 Program 5");
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);  
+	glutInitWindowSize(width, height);
+	glutInitWindowPosition(0, 0);
+	glutCreateWindow("CS535 Program 5");
 
-    // Call-back functions
-    glutDisplayFunc(on_display);
-    glutKeyboardFunc(on_keyboard);
+	// Call-back functions
+	glutDisplayFunc(on_display);
+	glutKeyboardFunc(on_keyboard);
 
 	// Set up scene
 	scene = new Scene(width, height, level, antialiasing);
@@ -98,7 +98,7 @@ int main(int argc, char **argv){
 	}
 	scene->status();
 	scene->raytrace();
-    glutMainLoop();
+	glutMainLoop();
 
-    return 0;
+	return 0;
 }
