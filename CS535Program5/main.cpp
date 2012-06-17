@@ -12,8 +12,8 @@ using namespace std;
 
 Scene *scene = NULL;
 
-void usage(char *name) {
-	cerr << "Usage: " << name << " scenefile [--debug]" << endl;
+void usage() {
+	cerr << "Usage: minray scenefile [--debug]" << endl;
 	exit(0);
 }
 
@@ -45,7 +45,7 @@ void on_keyboard(unsigned char key, int x, int y) {
 
 int main(int argc, char **argv){
 	if(argc < 2) {
-		usage(argv[0]);
+		usage();
 	}
 
 	char *filename = NULL;
@@ -67,7 +67,7 @@ int main(int argc, char **argv){
 
 	if(!filename) {
 		cerr << "Must provide scenefile as argument." << endl;
-		usage(argv[0]);
+		usage();
 	}
 
 	// Initialization functions
@@ -75,7 +75,7 @@ int main(int argc, char **argv){
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);  
 	glutInitWindowSize(width, height);
 	glutInitWindowPosition(0, 0);
-	glutCreateWindow("CS535 Program 5");
+	glutCreateWindow("Minray");
 
 	// Call-back functions
 	glutDisplayFunc(on_display);

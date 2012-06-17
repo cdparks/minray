@@ -3,7 +3,7 @@
 <a href="http://imgur.com/TvT1s"><img src="http://i.imgur.com/TvT1s.png" title="" alt="" /></a>
 
 ## Notes
-`Usage: CS535Program5 scenefile [--debug]`
+`Usage: minray scenefile [--debug]`
 
 This program ray traces the provided scene and draws it using OpenGL.
 During tracing, the following interface is shown:
@@ -126,7 +126,7 @@ Some example scene files are in the scenes/ directory.
 	README.md
 
 	// Solution file
-	CS535Program5.sln
+	minray.sln
 
 	// Source directory
 	CS535Program5/
