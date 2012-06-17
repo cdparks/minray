@@ -1,6 +1,6 @@
 # CS535 Program 5 - A simple ray tracer
 ---------------------------------------
-<a href="http://s24.photobucket.com/albums/c4/i_am_h3ro/?action=view&amp;current=blueSpheres.png" target="_blank"><img src="http://i24.photobucket.com/albums/c4/i_am_h3ro/blueSpheres.png" border="0"></a>
+<a href="http://imgur.com/TvT1s"><img src="http://i.imgur.com/TvT1s.png" title="" alt="" /></a>
 
 ## Notes
 Usage: CS535Program5 scenefile [--debug]
@@ -20,7 +20,7 @@ During tracing, the following interface is shown:
 	Ray tracing progress
 	====================
 
-If the --debug flag is used, the following settings are used instead:
+If the `--debug flag` is used, the following settings are used instead:
 
 	Scene content:
 	 Shapes             | 4
