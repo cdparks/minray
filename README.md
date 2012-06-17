@@ -113,6 +113,13 @@ Some example scene files are in the scenes/ directory.
 	images in images/final/ have area lights, so this should be
 	easy to verify.
 
+## Future enhancements
+1. Non-naive (O(n^2)) collision detection
+2. Texture instancing
+3. Movable camera
+4. "Preview" mode
+5. Break dependency on Windows-format bitmaps
+
 ## Files included in archive:
 
 	// This file
